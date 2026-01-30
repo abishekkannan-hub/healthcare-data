@@ -1,0 +1,35 @@
+
+
+Total Revenue = sum(Hospital_Data[total_bill_amount])
+
+
+Avg Cost per Patient = Average(Hospital_Data[total_bill_amount])
+
+
+ICU Utilization % =divide(calculate(count(Hospital_Data[admission_id]),
+ Hospital_Data[bed_type] = "ICU"),COUNT(Hospital_Data[admission_id]),0)
+
+
+Age Group =switch(true(),Hospital_Data[age] < 18, "Child (0-17)",
+Hospital_Data[age] < 40, "Young Adult (18-39)",Hospital_Data[age] < 60, "Adult (40-59)","Senior (60+)")
+
+
+Bottleneck Flag =if([Avg Length of Stay] > 6,
+[ICU Utilization %] > 0.85,
+[Avg Doctor Utilization %] > 90,
+"Bottleneck","Normal")
+
+
+Root Cause =switch(true(),[Avg Length of Stay] > 6, "Long Stay",
+[ICU Utilization %] > 0.85, "ICU Shortage",
+[Avg Doctor Utilization %] > 90, "Staff Shortage","Normal")
+
+
+Dept Avg LOS =average(Hospital_Data[length_of_stay])
+
+
+Dept Avg Cost =average(Hospital_Data[total_bill_amount])
+
+
+
+
